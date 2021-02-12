@@ -54,10 +54,11 @@ export default {
             this.rangeBullet[index].innerHTML = this.rangeSlider[index].value;
         },
         CreateGame() {
-            // var numberOfPlayers = Number(document.getElementById('rs-bullet-no-of-players').innerHTML);
-            // var numberOfQuestions = Number(document.getElementById('rs-bullet-no-of-questions').innerHTML);
-            // var secondsPerQuestion = Number(document.getElementById('rs-bullet-no-of-seconds').innerHTML);
-            console.log("CreateGame");
+            var numberOfPlayers = Number(document.getElementById('rs-bullet-no-of-players').innerHTML);
+            var numberOfQuestions = Number(document.getElementById('rs-bullet-no-of-questions').innerHTML);
+            var secondsPerQuestion = Number(document.getElementById('rs-bullet-no-of-seconds').innerHTML);
+            var data = {numberOfPlayers, numberOfQuestions, secondsPerQuestion};
+            this.$store.dispatch("SetSettings", data);
         }
     },
     mounted() {

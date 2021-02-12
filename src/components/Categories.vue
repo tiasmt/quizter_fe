@@ -2,7 +2,7 @@
     <div class="container">
         <h4>Please choose a category</h4>
         <div class="grid-container">
-            <div :class="['item ' + category.name]" v-for="category in categories" :key="category.name" :style="{ backgroundImage: 'linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url(' + category.imageURL + ')' }" @click="CreateSettings(category.name)" >
+            <div :class="['item ' + category.name]" v-for="category in categories" :key="category.name" :style="{ backgroundImage: 'linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url(' + category.imageURL + ')' }" @click="SetCategory(category.name)" >
                 <h5>{{category.name}}</h5>
             </div>   
         </div>
@@ -58,8 +58,8 @@ export default {
         }
     },
     methods : {
-        CreateSettings() {
-            console.log("CreateSettings"); //call VueX store
+        SetCategory(category) {
+            this.$store.dispatch("SetCategory", category);
         }
     }
 }

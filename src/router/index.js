@@ -4,6 +4,7 @@ import Home from './../components/Home.vue'
 import Join from './../components/Join.vue'
 import Categories from './../components/Categories.vue'
 import GameSettings from './../components/GameSettings.vue'
+import Avatar from './../components/Avatar.vue'
 import Game from './../components/Game.vue'
 
 Vue.use(VueRouter);
@@ -28,6 +29,11 @@ const routes = [
       path: "/GameSettings",
       name: "GameSettings",
       component: GameSettings
+    },
+    {
+      path: "/Avatar",
+      name: "Avatar",
+      component: Avatar
     },
     {
       path: "/Game",
