@@ -148,7 +148,7 @@ h4 {
     text-align: center;
 }
 .grid-container > div { 
-    border-radius: 5%;
+    border-radius: 45%;
     cursor: pointer;    
     font-weight: 500;
 }

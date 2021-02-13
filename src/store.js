@@ -12,7 +12,10 @@ export default new Vuex.Store({
         category: "",
         TimePerQuestion: 0,
         TotalNumberOfQuestions: 0,
-        NumberOfPlayers: 0
+        NumberOfPlayers: 0,
+        username: "",
+        avatar: "",
+        playerId: ""
     },
     mutations: {
         createGame(state, gameName) {
@@ -36,6 +39,11 @@ export default new Vuex.Store({
             state.TotalNumberOfQuestions = data.numberOfQuestions;
             state.NumberOfPlayers = data.numberOfPlayers;
             router.push('/Avatar');
+        },
+        createPlayer(state, data) {
+            console.log(state);
+            console.log(data);
+            // state.userName 
         }
     },
 
@@ -103,6 +111,30 @@ export default new Vuex.Store({
                 then((response) => {
                     if (response.status == 200) {
                         commit('setSettings', body);
+                    }
+                }).catch((e) => {
+                    commit('setError', {
+                        error: e.response.data.error
+                    });
+                });
+        },
+
+        CreatePlayer({ commit }, data) {
+            axios.post(apiHost + "/game/createplayer",
+                {
+                    'Content-Type': 'application/json'
+                },
+                {
+                    params: {
+                        username: data.username,
+                        avatar: data.avatar,
+                        gameName: this.state.gameName
+                    }
+                }).
+                then((response) => {
+                    if (response.status == 200) {
+                        data.id = response.data;
+                        commit('createPlayer', data);
                     }
                 }).catch((e) => {
                     commit('setError', {
