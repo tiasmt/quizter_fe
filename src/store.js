@@ -35,9 +35,9 @@ export default new Vuex.Store({
             router.push('/GameSettings');
         },
         setSettings(state, data) {
-            state.TimePerQuestion = data.secondsPerQuestion;
-            state.TotalNumberOfQuestions = data.numberOfQuestions;
-            state.NumberOfPlayers = data.numberOfPlayers;
+            state.TimePerQuestion = data.TimePerQuestion;
+            state.TotalNumberOfQuestions = data.TotalNumberOfQuestions;
+            state.NumberOfPlayers = data.NumberOfPlayers;
             router.push('/Avatar');
         },
         createPlayer(state, data) {
@@ -50,7 +50,7 @@ export default new Vuex.Store({
 
     actions: {
         CreateGame({ commit }) {
-            axios.get(apiRestHost + "/game/creategame").
+            axios.get(apiRestHost + "/game/CreateGame").
                 then((response) => {
                     if (response.status == 200) {
                         commit('createGame', response.data);
@@ -71,7 +71,7 @@ export default new Vuex.Store({
         },
 
         SetCategory({ commit }, category) {
-            axios.post(apiRestHost + "/game/setcategory",
+            axios.post(apiRestHost + "/game/SetCategory",
                 {
                     'Content-Type': 'application/json'
                 },
@@ -93,12 +93,12 @@ export default new Vuex.Store({
         },
 
         SetSettings({ commit }, data) {
-            var body = JSON.stringify({
+            var body = {
                 TimePerQuestion: data.secondsPerQuestion,
                 TotalNumberOfQuestions: data.numberOfQuestions,
                 NumberOfPlayers: data.numberOfPlayers
-            });
-            axios.post(apiRestHost + "/game/setsettings", body,
+            };
+            axios.post(apiRestHost + "/game/SetSettings", JSON.stringify(body),
                 {
                     headers: {
                         'Content-Type': 'application/json'
@@ -121,7 +121,7 @@ export default new Vuex.Store({
         },
 
         CreatePlayer({ commit }, data) {
-            axios.post(apiRestHost + "/game/createplayer",
+            axios.post(apiRestHost + "/game/CreatePlayer",
                 {
                     'Content-Type': 'application/json'
                 },

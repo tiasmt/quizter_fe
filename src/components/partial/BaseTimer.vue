@@ -21,7 +21,7 @@
 </template>
 
 <script>
-var timeLimit = 10;
+var timeLimit = 30;
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = timeLimit / 2;
 const ALERT_THRESHOLD = timeLimit / 4;
@@ -42,7 +42,8 @@ export default {
   data() {
     return {
       timePassed: 0,
-      timerInterval: null
+      timerInterval: null,
+      timeLeft: 0
     };
   },
   computed: {
@@ -57,9 +58,6 @@ export default {
         seconds = `0${seconds}`;
       }
       return `${minutes}:${seconds}`;
-    },
-    timeLeft() {
-      return timeLimit - this.timePassed;
     },
     timeFraction() {
       const rawTimeFraction = this.timeLeft / timeLimit;
@@ -84,10 +82,17 @@ export default {
     }
   },
   mounted() {
-
+    timeLimit = this.$store.state.TimePerQuestion;
   },
   created() {
-      
+    this.timeLeft = this.$store.state.TimePerQuestion;
+    this.$gameHub.$on('heart-beat', (payload) => {
+      this.timeLeft = payload;
+    });
+  },
+  beforeDestroy() {
+    // Make sure to cleanup SignalR event handlers when removing the component
+    this.$gameHub.$off('heart-beat');
   },
   methods: {
     onTimesUp() {

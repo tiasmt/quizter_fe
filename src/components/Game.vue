@@ -172,14 +172,9 @@ export default {
     // var correctQuestions = this.$GetCookie("correctQuestions");
     // this.correctQuestions = correctQuestions != "" ? correctQuestions : 0;
     // Listen to score changes coming from SignalR events
-    this.$gameHub.$on('heart-beat', (payload) => {
-      console.log(payload);
-    });
   },
   beforeDestroy() {
     // Make sure to cleanup SignalR event handlers when removing the component
-    this.$gameHub.$off('heart-beat');
-    // this.$gameHub.$off('game-updated', this.onUpdateGame);
   },
   mounted() {},
 };
