@@ -11,16 +11,16 @@
     </div>
     <div class="questions-screen">
       <div class="score-value">
-        <!-- {{ correctQuestions }} / {{ totalQuestions }} -->
+        {{ correctQuestions }} / {{ totalQuestions }}
       </div>
       <basetimer></basetimer>
-      <div class="profile">
-        <homer></homer>
-        <bart v-show="false"></bart>
-        <krusty v-show="false"></krusty>
-        <marge v-show="false"></marge>
-        <maggie v-show="false"></maggie>
-        <lisa v-show="false"></lisa>
+      <div class="avatar">
+        <homer v-show="isHomer()"></homer>
+        <bart v-show="isBart()"></bart>
+        <krusty v-show="isKrusty()"></krusty>
+        <marge v-show="isMarge()"></marge>
+        <maggie v-show="isMaggie()"></maggie>
+        <lisa v-show="isLisa()"></lisa>
       </div>
 
       <div class="question">
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import homer from "./avatars/Homer";
 import bart from "./avatars/Bart";
 import krusty from "./avatars/Krusty";
@@ -45,12 +46,8 @@ import basetimer from "./partial/BaseTimer.vue";
 export default {
   data() {
     return {
-      game: {},
-      timePerQuestion: 0,
-      currentTime: 0,
       numberOfQuestions: 0,
       score: 0,
-      isActive: false,
       correctQuestions: 0,
       totalQuestions: 0,
       answerId: null,
@@ -59,7 +56,43 @@ export default {
       gameId: 1,
     };
   },
+  computed: {
+    ...mapState([
+      "gameName",
+      "category",
+      "TimePerQuestion",
+      "TotalNumberOfQuestions",
+      "NumberOfPlayers",
+      "username",
+      "avatar",
+      "playerId",
+    ]),
+  },
   methods: {
+    isHomer() {
+      if(this.avatar == "homer")
+        return true;
+    },
+    isBart() {
+      if(this.avatar == "bart")
+        return true;
+    },
+    isKrusty() {
+      if(this.avatar == "krusty")
+        return true;
+    },
+    isMarge() {
+      if(this.avatar == "marge")
+        return true;
+    },
+    isMaggie() {
+      if(this.avatar == "maggie")
+        return true;
+    },
+    isLisa() {
+      if(this.avatar == "lisa")
+        return true;
+    },
     setAnswer(event, id) {
       this.removeClass("chosen");
       event.target.classList.add("chosen");
@@ -138,10 +171,14 @@ export default {
     // this.totalQuestions = totalQuestions != "" ? totalQuestions : 0;
     // var correctQuestions = this.$GetCookie("correctQuestions");
     // this.correctQuestions = correctQuestions != "" ? correctQuestions : 0;
+    // Listen to score changes coming from SignalR events
+    this.$gameHub.$on('heart-beat', (payload) => {
+      console.log(payload);
+    });
   },
   beforeDestroy() {
-    // // Make sure to cleanup SignalR event handlers when removing the component
-    // this.$gameHub.$off('game-started', this.onStartGame);
+    // Make sure to cleanup SignalR event handlers when removing the component
+    this.$gameHub.$off('heart-beat');
     // this.$gameHub.$off('game-updated', this.onUpdateGame);
   },
   mounted() {},
@@ -341,8 +378,12 @@ button#answer6.chosen {
     content: "\f00d";
   }
 }
-.profile {
-  margin-top: -10%;
+.avatar {
+  margin-top: 5%;
+}
+
+#krusty {
+  margin-left: 25%;
 }
 .timer-value {
   font-size: 150%;

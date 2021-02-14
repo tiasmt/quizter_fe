@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { apiHost } from "@/main.js";
+import { apiRestHost } from "@/main.js";
 import router from './router'
 
 Vue.use(Vuex)
@@ -41,15 +41,16 @@ export default new Vuex.Store({
             router.push('/Avatar');
         },
         createPlayer(state, data) {
-            console.log(state);
-            console.log(data);
-            // state.userName 
+            state.playerId = data.id;
+            state.avatar = data.avatar;
+            state.username = data.username;
+            router.push('/Game');
         }
     },
 
     actions: {
         CreateGame({ commit }) {
-            axios.get(apiHost + "/game/creategame").
+            axios.get(apiRestHost + "/game/creategame").
                 then((response) => {
                     if (response.status == 200) {
                         commit('createGame', response.data);
@@ -70,7 +71,7 @@ export default new Vuex.Store({
         },
 
         SetCategory({ commit }, category) {
-            axios.post(apiHost + "/game/setcategory",
+            axios.post(apiRestHost + "/game/setcategory",
                 {
                     'Content-Type': 'application/json'
                 },
@@ -97,7 +98,7 @@ export default new Vuex.Store({
                 TotalNumberOfQuestions: data.numberOfQuestions,
                 NumberOfPlayers: data.numberOfPlayers
             });
-            axios.post(apiHost + "/game/setsettings", body,
+            axios.post(apiRestHost + "/game/setsettings", body,
                 {
                     headers: {
                         'Content-Type': 'application/json'
@@ -120,7 +121,7 @@ export default new Vuex.Store({
         },
 
         CreatePlayer({ commit }, data) {
-            axios.post(apiHost + "/game/createplayer",
+            axios.post(apiRestHost + "/game/createplayer",
                 {
                     'Content-Type': 'application/json'
                 },
@@ -142,10 +143,9 @@ export default new Vuex.Store({
                     });
                 });
         }
-        
+
 
     },
     getters: {
     }
-
 });
