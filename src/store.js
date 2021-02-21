@@ -15,7 +15,9 @@ export default new Vuex.Store({
         NumberOfPlayers: 0,
         username: "",
         avatar: "",
-        playerId: ""
+        playerId: "",
+        inProgress: false,
+        currentQuestion: null,
     },
     mutations: {
         createGame(state, gameName) {
@@ -45,6 +47,13 @@ export default new Vuex.Store({
             state.avatar = data.avatar;
             state.username = data.username;
             router.push('/Game');
+        },
+        startGame(state) {
+            state.inProgress = true;
+            state.questionId = 0
+        },
+        setQuestion(state, data) {
+            state.currentQuestion = data;
         }
     },
 
@@ -142,7 +151,74 @@ export default new Vuex.Store({
                         error: e.response.data.error
                     });
                 });
-        }
+        },
+
+        StartGame({ commit }, data) {
+            axios.post(apiRestHost + "/game/StartGame",
+                {
+                    'Content-Type': 'application/json'
+                },
+                {
+                    params: {
+                        gameName: data.gameName,
+                    }
+                }).
+                then((response) => {
+                    if (response.status == 200) {
+                        commit('startGame', data);
+                    }
+                }).catch((e) => {
+                    commit('setError', {
+                        error: e.response.data.error
+                    });
+                });
+        },
+
+        CheckAnswer({ commit }, data) {
+            return axios.post(apiRestHost + "/game/CheckAnswer",
+                {
+                    'Content-Type': 'application/json'
+                },
+                {
+                    params: {
+                        gameName: data.gameName,
+                        username: data.username,
+                        questionId: data.questionId,
+                        answerId: data.answerId
+                    }
+                }).
+                then((response) => {
+                    if (response.status == 200) {
+                        return response.data;
+                    }
+                }).catch((e) => {
+                    commit('setError', {
+                        error: e.response.data.error
+                    });
+                });
+        },
+        GetQuestion({ commit }) {
+            var state = this.state;
+            axios.post(apiRestHost + "/game/GetQuestion",
+                {
+                    'Content-Type': 'application/json'
+                },
+                {
+                    params: {
+                        gameName: state.gameName,
+                        questionId: state.questionId++,
+                    }
+                }).
+                then((response) => {
+                    if (response.status == 200) {
+                        console.log("Ok");
+                    }
+                }).catch((e) => {
+                    commit('setError', {
+                        error: e.response.data.error
+                    });
+                });
+        },
 
 
     },

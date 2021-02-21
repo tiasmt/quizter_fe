@@ -1,34 +1,39 @@
 <template>
   <div class="container">
-    <div class="navbar">
-      <div class="questions"><font-awesome-icon icon="question" /></div>
-      <div class="leaderboard"><font-awesome-icon icon="trophy" /></div>
+    <div v-if="inProgress == false">
+      <button @click="StartGame()">Start Game</button>
     </div>
-    <div id="start-game-modal" class="modal">
-      <div class="modal-content">
-        <button class="start-game-button" @click="StartTimer()">Start</button>
+    <div v-else>
+      <div class="navbar">
+        <div class="questions"><font-awesome-icon icon="question" /></div>
+        <div class="leaderboard"><font-awesome-icon icon="trophy" /></div>
       </div>
-    </div>
-    <div class="questions-screen">
-      <div class="score-value">
-        {{ correctQuestions }} / {{ totalQuestions }}
+      <div id="start-game-modal" class="modal">
+        <div class="modal-content">
+          <button class="start-game-button" @click="StartTimer()">Start</button>
+        </div>
       </div>
-      <basetimer></basetimer>
-      <div class="avatar">
-        <homer v-show="isHomer()"></homer>
-        <bart v-show="isBart()"></bart>
-        <krusty v-show="isKrusty()"></krusty>
-        <marge v-show="isMarge()"></marge>
-        <maggie v-show="isMaggie()"></maggie>
-        <lisa v-show="isLisa()"></lisa>
-      </div>
+      <div class="questions-screen">
+        <div class="score-value">
+          {{ correctQuestions }} / {{ totalQuestions }}
+        </div>
+        <basetimer></basetimer>
+        <div class="avatar">
+          <homer v-show="isHomer()"></homer>
+          <bart v-show="isBart()"></bart>
+          <krusty v-show="isKrusty()"></krusty>
+          <marge v-show="isMarge()"></marge>
+          <maggie v-show="isMaggie()"></maggie>
+          <lisa v-show="isLisa()"></lisa>
+        </div>
 
-      <div class="question">
-        <!-- <h5>{{ game.game.currentQuestion.body }}</h5> -->
-      </div>
+        <div class="question">
+          {{ currentQuestion.body }}
+        </div>
 
-      <div class="answer-options">
-        <!-- <button :id="['answer' + (index+1)]" v-for="(answer, index) in game.game.currentQuestion.answers" :key="index" @click="setAnswer($event, index)" >{{game.game.currentQuestion.answers[index].body}}</button> -->
+        <div class="answer-options">
+          <button :id="['answer' + (index+1)]" v-for="(answer, index) in currentQuestion.answers" :key="index" @click="setAnswer($event, index)" >{{currentQuestion.answers[index].body}}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -66,32 +71,29 @@ export default {
       "username",
       "avatar",
       "playerId",
+      "inProgress",
+      "currentQuestion",
+      "isCorrect"
     ]),
   },
   methods: {
     isHomer() {
-      if(this.avatar == "homer")
-        return true;
+      if (this.avatar == "homer") return true;
     },
     isBart() {
-      if(this.avatar == "bart")
-        return true;
+      if (this.avatar == "bart") return true;
     },
     isKrusty() {
-      if(this.avatar == "krusty")
-        return true;
+      if (this.avatar == "krusty") return true;
     },
     isMarge() {
-      if(this.avatar == "marge")
-        return true;
+      if (this.avatar == "marge") return true;
     },
     isMaggie() {
-      if(this.avatar == "maggie")
-        return true;
+      if (this.avatar == "maggie") return true;
     },
     isLisa() {
-      if(this.avatar == "lisa")
-        return true;
+      if (this.avatar == "lisa") return true;
     },
     setAnswer(event, id) {
       this.removeClass("chosen");
@@ -121,22 +123,26 @@ export default {
     incrementTotalQuestion() {},
     incrementScore() {},
     checkAnswer() {
+      var that = this;
       this.removeClass("chosen");
-      this.remove;
-      if (this.answerId != null) {
-        this.game.game.currentQuestion.answers[this.answerId].body = "";
-        this.answerEvent.target.classList.remove("checking");
-        if (
-          this.game.game.currentQuestion.answers[this.answerId].isCorrect ==
-          true
-        ) {
-          this.incrementScore();
-          this.answerEvent.target.classList.add("correct");
+      this.$store.dispatch("CheckAnswer", {
+        gameName: this.gameName,
+        answerId: this.answerId,
+        username: this.$store.username
+      }).then((response) => {
+        if(response) {
+          that.answerEvent.target.classList.add("correct");
         } else {
-          this.answerEvent.target.classList.add("wrong");
+          that.answerEvent.target.classList.add("wrong");
         }
-        this.answerId = null;
-      }
+        setTimeout(() => that.getNextQuestion(), 1000);
+      });
+      
+    },
+    getNextQuestion() {
+      this.$store.dispatch("GetQuestion");
+      this.answerEvent.target.classList.remove("wrong");
+      this.answerEvent.target.classList.remove("correct");
     },
     onUpdateGame({ game }) {
       if (this.game.id !== game.id) {
@@ -152,6 +158,11 @@ export default {
     StartTimer() {
       console.log("StartTimer");
     },
+    StartGame() {
+      this.$store.dispatch("StartGame", {
+        gameName: this.gameName
+      });
+    }
   },
   components: {
     homer: homer,
@@ -163,6 +174,13 @@ export default {
     basetimer: basetimer,
   },
   created() {
+    var that = this;
+    this.$gameHub.$on('next-question', (payload) => {
+      that.$store.commit('setQuestion', payload)
+    });
+    this.$gameHub.$on('check-answer', () => {
+      that.checkAnswer();
+    });
     // Listen to score changes coming from SignalR events
     // this.$gameHub.$on('game-started', this.onStartGame);
     // this.$gameHub.$on('game-updated', this.onUpdateGame);
@@ -175,6 +193,8 @@ export default {
   },
   beforeDestroy() {
     // Make sure to cleanup SignalR event handlers when removing the component
+    this.$gameHub.$off('next-question');
+    this.$gameHub.$off('check-answer');
   },
   mounted() {},
 };
@@ -209,6 +229,12 @@ $gray: #bbbbbb;
     background: rgb(23, 156, 114);
   }
 }
+
+.question {
+  margin-top: 10%;
+  font-size: 70%;
+  text-align: center;
+}
 .leaderboard {
   width: 50%;
   float: right;
@@ -223,8 +249,8 @@ h5 {
   text-align: center;
 }
 .answer-options {
-  margin-left: 8%;
-  margin-top: 25%;
+  margin-left: 15%;
+  margin-top: 15%;
   height: 15vh;
   display: grid;
   grid-template-columns: auto auto;
@@ -380,6 +406,11 @@ button#answer6.chosen {
 #krusty {
   margin-left: 25%;
 }
+
+#maggie {
+  top: 0%;
+}
+
 .timer-value {
   font-size: 150%;
   text-align: center;

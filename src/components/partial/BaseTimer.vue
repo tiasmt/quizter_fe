@@ -85,9 +85,10 @@ export default {
     timeLimit = this.$store.state.TimePerQuestion;
   },
   created() {
+    var that = this;
     this.timeLeft = this.$store.state.TimePerQuestion;
     this.$gameHub.$on('heart-beat', (payload) => {
-      this.timeLeft = payload;
+      that.timeLeft = payload;
     });
   },
   beforeDestroy() {
