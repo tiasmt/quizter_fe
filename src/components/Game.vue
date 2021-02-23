@@ -32,7 +32,14 @@
         </div>
 
         <div class="answer-options">
-          <button :id="['answer' + (index+1)]" v-for="(answer, index) in currentQuestion.answers" :key="index" @click="setAnswer($event, index)" >{{currentQuestion.answers[index].body}}</button>
+          <button
+            :id="['answer' + (index + 1)]"
+            v-for="(answer, index) in currentQuestion.answers"
+            :key="index"
+            @click="setAnswer($event, index)"
+          >
+            {{ currentQuestion.answers[index].body }}
+          </button>
         </div>
       </div>
     </div>
@@ -73,7 +80,7 @@ export default {
       "playerId",
       "inProgress",
       "currentQuestion",
-      "isCorrect"
+      "isCorrect",
     ]),
   },
   methods: {
@@ -125,25 +132,26 @@ export default {
     checkAnswer() {
       var that = this;
       this.removeClass("chosen");
-      this.$store.dispatch("CheckAnswer", {
-        gameName: this.gameName,
-        answerId: this.answerId,
-        username: this.$store.username
-      }).then((response) => {
-        if(response) {
-          that.answerEvent.target.classList.add("correct");
-        } else {
-          that.answerEvent.target.classList.add("wrong");
-        }
-        setTimeout(() => that.getNextQuestion(), 1000);
-      });
-      
+      this.$store
+        .dispatch("CheckAnswer", {
+          gameName: this.gameName,
+          answerId: this.answerId,
+          username: this.$store.username,
+        })
+        .then((response) => {
+          if (response) {
+            that.answerEvent.target.classList.add("correct");
+          } else {
+            that.answerEvent.target.classList.add("wrong");
+          }
+          setTimeout(() => that.getNextQuestion(), 1000);
+        });
     },
-    getNextQuestion() {
-      this.$store.dispatch("GetQuestion");
-      this.answerEvent.target.classList.remove("wrong");
-      this.answerEvent.target.classList.remove("correct");
-    },
+    // getNextQuestion() {
+    //   this.$store.dispatch("GetQuestion");
+    //   this.answerEvent.target.classList.remove("wrong");
+    //   this.answerEvent.target.classList.remove("correct");
+    // },
     onUpdateGame({ game }) {
       if (this.game.id !== game.id) {
         this.game = { game };
@@ -160,9 +168,9 @@ export default {
     },
     StartGame() {
       this.$store.dispatch("StartGame", {
-        gameName: this.gameName
+        gameName: this.gameName,
       });
-    }
+    },
   },
   components: {
     homer: homer,
@@ -175,26 +183,22 @@ export default {
   },
   created() {
     var that = this;
-    this.$gameHub.$on('next-question', (payload) => {
-      that.$store.commit('setQuestion', payload)
+    this.$gameHub.$on("next-question", (payload) => {
+      if (that.answerEvent != null) {
+        that.answerEvent.target.classList.remove("wrong");
+        that.answerEvent.target.classList.remove("correct");
+      }
+
+      that.$store.commit("setQuestion", payload);
     });
-    this.$gameHub.$on('check-answer', () => {
+    this.$gameHub.$on("check-answer", () => {
       that.checkAnswer();
     });
-    // Listen to score changes coming from SignalR events
-    // this.$gameHub.$on('game-started', this.onStartGame);
-    // this.$gameHub.$on('game-updated', this.onUpdateGame);
-    // eventBus.$on('updateGame', this.updateGame);
-    // var totalQuestions = this.$GetCookie("totalQuestions");
-    // this.totalQuestions = totalQuestions != "" ? totalQuestions : 0;
-    // var correctQuestions = this.$GetCookie("correctQuestions");
-    // this.correctQuestions = correctQuestions != "" ? correctQuestions : 0;
-    // Listen to score changes coming from SignalR events
   },
   beforeDestroy() {
     // Make sure to cleanup SignalR event handlers when removing the component
-    this.$gameHub.$off('next-question');
-    this.$gameHub.$off('check-answer');
+    this.$gameHub.$off("next-question");
+    this.$gameHub.$off("check-answer");
   },
   mounted() {},
 };

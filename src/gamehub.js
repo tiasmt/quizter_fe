@@ -14,7 +14,7 @@ export default {
         connection.on('Beat', (payload) => {
             gameHub.$emit('heart-beat', payload)
         });
-        connection.on('NextQuestion', (payload) => {
+        connection.on('SendQuestion', (payload) => {
             gameHub.$emit('next-question', payload)
         });
         connection.on('CheckAnswer', () => {
