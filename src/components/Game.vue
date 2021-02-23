@@ -144,14 +144,8 @@ export default {
           } else {
             that.answerEvent.target.classList.add("wrong");
           }
-          setTimeout(() => that.getNextQuestion(), 1000);
         });
     },
-    // getNextQuestion() {
-    //   this.$store.dispatch("GetQuestion");
-    //   this.answerEvent.target.classList.remove("wrong");
-    //   this.answerEvent.target.classList.remove("correct");
-    // },
     onUpdateGame({ game }) {
       if (this.game.id !== game.id) {
         this.game = { game };
