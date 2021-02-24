@@ -146,6 +146,7 @@ export default {
           }
           that.correctQuestions = response.correctAnswers;
           that.totalQuestions = response.correctAnswers + response.wrongAnswers;
+          that.answerId = null;
         });
     },
     onUpdateGame({ game }) {
