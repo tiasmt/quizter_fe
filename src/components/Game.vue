@@ -134,16 +134,18 @@ export default {
       this.removeClass("chosen");
       this.$store
         .dispatch("CheckAnswer", {
-          gameName: this.gameName,
-          answerId: this.answerId,
-          username: this.$store.username,
+          gameName: that.gameName,
+          answerId: that.answerId,
+          username: that.username,
         })
         .then((response) => {
-          if (response) {
+          if (response.lastAnswerIsCorrect) {
             that.answerEvent.target.classList.add("correct");
           } else {
             that.answerEvent.target.classList.add("wrong");
           }
+          that.correctQuestions = response.correctAnswers;
+          that.totalQuestions = response.correctAnswers + response.wrongAnswers;
         });
     },
     onUpdateGame({ game }) {

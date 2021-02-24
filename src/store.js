@@ -175,6 +175,7 @@ export default new Vuex.Store({
         },
 
         CheckAnswer({ commit }, data) {
+            console.log(data);
             return axios.post(apiRestHost + "/game/CheckAnswer",
                 {
                     'Content-Type': 'application/json'
