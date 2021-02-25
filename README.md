@@ -22,3 +22,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Preview 
+
+![](https://github.com/tiasmt/quizter_fe/blob/master/ui_gifs/Quizter.gif)
