@@ -23,6 +23,9 @@ export default {
         connection.on('PlayerJoined', (payload) => {
             setTimeout(() => gameHub.$emit('player-joined', payload), 250);
         });
+        connection.on('GameStarted', () => {
+            gameHub.$emit('game-started')
+        });
 
         let startedPromise = null;
         function start() {

@@ -18,16 +18,17 @@ export default new Vuex.Store({
         playerId: "",
         inProgress: false,
         currentQuestion: null,
-        players: null
+        players: null,
+        isAdmin: false
     },
     mutations: {
         createGame(state, gameName) {
             state.gameName = gameName;
+            state.isAdmin = true;
             router.push('/Categories');
         },
-        joinGame(state, data) {
-            console.log(state);
-            console.log(data);
+        join() {
+            router.push('/Join');
         },
         observeGame(state, data) {
             console.log(state);
@@ -58,6 +59,17 @@ export default new Vuex.Store({
         },
         playerJoined(state, data) {
             state.players = data.players;
+        },
+        joinGame(state, data) {
+            state.gameName = data.gameName;
+            state.TimePerQuestion = data.gameSettings.timePerQuestion;
+            state.TotalNumberOfQuestions = data.gameSettings.totalNumberOfQuestions;
+            state.NumberOfPlayers = data.gameSettings.numberOfPlayers;
+            
+            router.push('/Avatar');
+        },
+        gameStarted(state) {
+            state.inProgress = true;
         }
     },
 
@@ -75,8 +87,8 @@ export default new Vuex.Store({
                 });
         },
 
-        JoinGame({ commit }, data) {
-            commit('joinGame', data);
+        Join({ commit }, data) {
+            commit('join', data);
         },
 
         ObserveGame({ commit }, data) {
@@ -227,7 +239,32 @@ export default new Vuex.Store({
 
         PlayerJoined({ commit }, data) {
             commit('playerJoined', data);
+        },
+
+        JoinGame({ commit }, data) {
+            axios.post(apiRestHost + "/game/JoinGame",
+                {
+                    'Content-Type': 'application/json'
+                },
+                {
+                    params: {
+                        gameName: data
+                    }
+                }).
+                then((response) => {
+                    if (response.status == 200) {
+                        commit('joinGame', response.data);
+                    }
+                }).catch((e) => {
+                    commit('setError', {
+                        error: e.response.data.error
+                    });
+                });
+        },
+        GameStarted({ commit }) {
+            commit('gameStarted')
         }
+
 
 
     },

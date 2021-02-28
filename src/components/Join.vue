@@ -1,25 +1,23 @@
 <template>
   <div class="container">
             <div class="question game">
-                <input type="text" required/>
+                <input v-model="gameName" type="text" required/>
                 <label>Game Name</label>
             </div>
-            <div class="question player">
-                <input type="text" required/>
-                <label>Player Name</label>
-            </div>
             <a class="join" @click="JoinGame()">Join</a>
-      <!-- <div class="div-label" id="label-quiz-name"><h4>Arena Name: </h4> <input type="text" class="quiz-name"></div>
-      <div class="div-label" id="label-player-name"><h4>Player Name: </h4> <input type="text" class="player-name"></div> -->
-
   </div>
 </template>
 
 <script>
 export default {
+   data() {
+        return {
+          gameName: ""
+        }
+    },
     methods: {
       JoinGame() {
-          console.log("JoinGame"); //call VueX store
+         this.$store.dispatch("JoinGame", this.gameName);
       }   
     }
 }

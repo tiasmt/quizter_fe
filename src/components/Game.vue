@@ -1,8 +1,11 @@
 <template>
   <div class="container">
     <div v-if="inProgress == false">
-      <button class="start-game-button" @click="StartGame()">Start Game</button>
-
+      <button v-if="isAdmin" class="start-game-button" @click="StartGame()">
+        Start Game
+      </button>
+      <h5 v-if="isAdmin">{{ gameName }}</h5>
+      <h5 v-else>Waiting for Admin to start game ...</h5>
       <div
         :class="['player-avatar ' + player.avatar]"
         v-for="player in players"
@@ -91,6 +94,7 @@ export default {
       "currentQuestion",
       "isCorrect",
       "players",
+      "isAdmin",
     ]),
   },
   methods: {
@@ -194,7 +198,6 @@ export default {
       this.$store.dispatch("PlayerJoined", {
         players: data,
       });
-      console.log(that.players);
     });
 
     this.$gameHub.$on("next-question", (payload) => {
@@ -208,6 +211,10 @@ export default {
 
     this.$gameHub.$on("check-answer", () => {
       that.checkAnswer();
+    });
+
+    this.$gameHub.$on("game-started", () => {
+      this.$store.dispatch("GameStarted");
     });
   },
   beforeDestroy() {

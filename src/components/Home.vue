@@ -1,8 +1,8 @@
 <template>
   <div class="home container">
       <a class="create" @click="CreateGame()">New Game</a>
-      <a class="join" @click="JoinGame()">Join Game</a>
-      <a class="observe" @click="JoinGame()">Observe Game</a>
+      <a class="join" @click="Join()">Join Game</a>
+      <a class="observe" @click="Join()">Observe Game</a>
   </div>
 </template>
 
@@ -16,11 +16,11 @@ export default {
         CreateGame() {
             this.$store.dispatch("CreateGame");
         },
-        JoinGame() {
-            this.$store.dispatch("JoinGame");
+        Join() {
+            this.$store.dispatch("Join");
         },
-        ObserveGame() {
-            this.$store.dispatch("ObserveGame");
+        Observe() {
+            this.$store.dispatch("Observe");
         }
     }
 }
