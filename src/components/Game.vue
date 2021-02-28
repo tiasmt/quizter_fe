@@ -22,14 +22,19 @@
     </div>
     <div v-else>
       <div class="navbar">
-        <div class="questions"><font-awesome-icon icon="question" /></div>
-        <div class="leaderboard"><font-awesome-icon icon="trophy" /></div>
-      </div>
-      <div class="questions-screen">
-        <div class="score-value">
-          {{ correctQuestions }} / {{ totalQuestions }}
+        <div @click="SetScreen(true)" class="questions">
+          <font-awesome-icon icon="question" />
         </div>
-        <basetimer></basetimer>
+        <div @click="SetScreen(false)" class="leaderboard">
+          <font-awesome-icon icon="trophy" />
+        </div>
+      </div>
+
+      <div class="score-value">
+        {{ correctQuestions }} / {{ totalQuestions }}
+      </div>
+      <basetimer></basetimer>
+      <div v-if="questionsScreen" class="questions-screen">
         <div class="avatar">
           <homer v-show="isHomer()"></homer>
           <bart v-show="isBart()"></bart>
@@ -54,6 +59,21 @@
           </button>
         </div>
       </div>
+      <div
+        v-else
+        :class="['player-avatar ' + player.avatar]"
+        v-for="player in players"
+        :key="player.playerId"
+        :style="{
+          backgroundImage:
+            'url(' +
+            require('../assets/images/Simpsons/' + player.avatar + '.png') +
+            ')',
+        }"
+      >
+        <label class="username"> {{ player.username }} </label>
+        <label class="correct-answers"> {{ player.correctAnswers }} </label>
+      </div>
     </div>
   </div>
 </template>
@@ -77,7 +97,7 @@ export default {
       answerId: null,
       answerEvent: null,
       timer: null,
-      gameId: 1,
+      questionsScreen: true,
     };
   },
   computed: {
@@ -115,6 +135,9 @@ export default {
     },
     isLisa() {
       if (this.avatar == "lisa") return true;
+    },
+    SetScreen(state) {
+      this.questionsScreen = state;
     },
     setAnswer(event, id) {
       this.removeClass("chosen");
@@ -216,12 +239,17 @@ export default {
     this.$gameHub.$on("game-started", () => {
       this.$store.dispatch("GameStarted");
     });
+
+    this.$gameHub.$on("send-leaderboard", (payload) => {
+      this.$store.dispatch("UpdateLeaderboard", payload);
+    });
   },
   beforeDestroy() {
     // Make sure to cleanup SignalR event handlers when removing the component
     this.$gameHub.$off("next-question");
     this.$gameHub.$off("check-answer");
     this.$gameHub.$off("player-joined");
+    this.$gameHub.$off("send-leaderboard");
   },
   mounted() {},
 };

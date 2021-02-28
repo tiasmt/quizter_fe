@@ -65,12 +65,15 @@ export default new Vuex.Store({
             state.TimePerQuestion = data.gameSettings.timePerQuestion;
             state.TotalNumberOfQuestions = data.gameSettings.totalNumberOfQuestions;
             state.NumberOfPlayers = data.gameSettings.numberOfPlayers;
-            
             router.push('/Avatar');
         },
         gameStarted(state) {
             state.inProgress = true;
+        },
+        updateLeaderboard(state, data) {
+            state.players = data;
         }
+        
     },
 
     actions: {
@@ -263,6 +266,9 @@ export default new Vuex.Store({
         },
         GameStarted({ commit }) {
             commit('gameStarted')
+        },
+        UpdateLeaderboard({ commit }, data) {
+            commit('updateLeaderboard', data)
         }
 
 

@@ -26,6 +26,9 @@ export default {
         connection.on('GameStarted', () => {
             gameHub.$emit('game-started')
         });
+        connection.on('SendLeaderboard', (payload) => {
+            gameHub.$emit('send-leaderboard', payload);
+        });
 
         let startedPromise = null;
         function start() {
