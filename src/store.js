@@ -18,6 +18,7 @@ export default new Vuex.Store({
         playerId: "",
         inProgress: false,
         currentQuestion: null,
+        players: null
     },
     mutations: {
         createGame(state, gameName) {
@@ -54,6 +55,9 @@ export default new Vuex.Store({
         },
         setQuestion(state, data) {
             state.currentQuestion = data;
+        },
+        playerJoined(state, data) {
+            state.players = data.players;
         }
     },
 
@@ -220,6 +224,10 @@ export default new Vuex.Store({
                     });
                 });
         },
+
+        PlayerJoined({ commit }, data) {
+            commit('playerJoined', data);
+        }
 
 
     },

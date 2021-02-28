@@ -1,17 +1,26 @@
 <template>
   <div class="container">
     <div v-if="inProgress == false">
-      <button @click="StartGame()">Start Game</button>
+      <button class="start-game-button" @click="StartGame()">Start Game</button>
+
+      <div
+        :class="['player-avatar ' + player.avatar]"
+        v-for="player in players"
+        :key="player.playerId"
+        :style="{
+          backgroundImage:
+            'url(' +
+            require('../assets/images/Simpsons/' + player.avatar + '.png') +
+            ')',
+        }"
+      >
+        <label class="username"> {{ player.username }} </label>
+      </div>
     </div>
     <div v-else>
       <div class="navbar">
         <div class="questions"><font-awesome-icon icon="question" /></div>
         <div class="leaderboard"><font-awesome-icon icon="trophy" /></div>
-      </div>
-      <div id="start-game-modal" class="modal">
-        <div class="modal-content">
-          <button class="start-game-button" @click="StartTimer()">Start</button>
-        </div>
       </div>
       <div class="questions-screen">
         <div class="score-value">
@@ -81,6 +90,7 @@ export default {
       "inProgress",
       "currentQuestion",
       "isCorrect",
+      "players",
     ]),
   },
   methods: {
@@ -180,6 +190,13 @@ export default {
   },
   created() {
     var that = this;
+    this.$gameHub.$on("player-joined", (data) => {
+      this.$store.dispatch("PlayerJoined", {
+        players: data,
+      });
+      console.log(that.players);
+    });
+
     this.$gameHub.$on("next-question", (payload) => {
       if (that.answerEvent != null) {
         that.answerEvent.target.classList.remove("wrong");
@@ -188,6 +205,7 @@ export default {
 
       that.$store.commit("setQuestion", payload);
     });
+
     this.$gameHub.$on("check-answer", () => {
       that.checkAnswer();
     });
@@ -196,6 +214,7 @@ export default {
     // Make sure to cleanup SignalR event handlers when removing the component
     this.$gameHub.$off("next-question");
     this.$gameHub.$off("check-answer");
+    this.$gameHub.$off("player-joined");
   },
   mounted() {},
 };
@@ -282,6 +301,14 @@ button {
     letter-spacing: 2px;
   }
 }
+
+.start-game-button {
+  margin-left: 30%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  color: #0ca071;
+}
+
 button#answer1 {
   color: $turquoise;
 }
@@ -419,6 +446,30 @@ button#answer6.chosen {
 .score-value {
   font-size: 110%;
   text-align: right;
+}
+
+.player-avatar {
+  height: 85px;
+  width: 60px;
+  margin-left: 30%;
+}
+
+.username {
+  font-size: 50%;
+  margin-left: 130%;
+}
+
+.bart,
+.krusty,
+.lisa,
+.maggie,
+.homer,
+.marge {
+  background-size: 100%;
+  border: 1px solid #888;
+  margin-top: 1%;
+  padding: 1%;
+  border-radius: 10px;
 }
 @keyframes rotating {
   from {

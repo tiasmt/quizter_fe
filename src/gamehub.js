@@ -20,6 +20,9 @@ export default {
         connection.on('CheckAnswer', () => {
             gameHub.$emit('check-answer')
         });
+        connection.on('PlayerJoined', (payload) => {
+            setTimeout(() => gameHub.$emit('player-joined', payload), 250);
+        });
 
         let startedPromise = null;
         function start() {
