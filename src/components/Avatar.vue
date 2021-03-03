@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import homer from "./avatars/Homer";
 import bart from "./avatars/Bart";
 import krusty from "./avatars/Krusty";
@@ -28,6 +29,11 @@ export default {
       username: ""
     };
   },
+  computed: {
+    ...mapState([
+      "gameName"
+    ]),
+  },
   methods: {
     CreatePlayer(avatar) {
       this.$store.dispatch("CreatePlayer", {
@@ -35,6 +41,9 @@ export default {
         username: this.username
       });
     },
+  },
+  created() {
+    this.$gameHub.JoinGroup(this.gameName);
   },
   components: {
     homer: homer,
