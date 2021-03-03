@@ -1,4 +1,5 @@
 import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr'
+
 export default {
     install(Vue) {
         const connection = new HubConnectionBuilder()
@@ -42,5 +43,13 @@ export default {
         connection.onclose(() => start());
 
         start();
+        // Provide methods for components to send messages back to server
+        // Make sure no invocation happens until the connection is established
+        gameHub.JoinGroup = (gameName) => {
+            return startedPromise
+                .then(() => connection.invoke('JoinGroup', gameName))
+                .catch(console.error)
+        }
     }
+
 }
