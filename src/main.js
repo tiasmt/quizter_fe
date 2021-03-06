@@ -10,7 +10,7 @@ import GameHub from './gamehub'
 
 let baseUrl = ''
 if (process.env.NODE_ENV === 'production') {
-   baseUrl = '';
+   baseUrl = 'https://quizster-backend.herokuapp.com';
 } else {
    baseUrl = 'https://localhost:5001';
 }
