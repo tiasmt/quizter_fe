@@ -269,7 +269,17 @@ export default new Vuex.Store({
         },
         UpdateLeaderboard({ commit }, data) {
             commit('updateLeaderboard', data)
-        }
+        },
+        Stop({ commit }) {
+            axios.post(apiRestHost + "/game/StopEverything",
+                {
+                    'Content-Type': 'application/json'
+                }).catch((e) => {
+                    commit('setError', {
+                        error: e.response.data.error
+                    });
+                });
+        },
 
 
 

@@ -3,6 +3,7 @@
       <a class="create" @click="CreateGame()">New Game</a>
       <a class="join" @click="Join()">Join Game</a>
       <a class="observe" @click="Join()">Observe Game</a>
+      <a class="observe" @click="Stop()">Stop All Games</a>
   </div>
 </template>
 
@@ -21,6 +22,9 @@ export default {
         },
         Observe() {
             this.$store.dispatch("Observe");
+        },
+        Stop() {
+          this.$store.dispatch("Stop");
         }
     }
 }
