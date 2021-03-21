@@ -12,7 +12,6 @@ export default new Vuex.Store({
         category: "",
         TimePerQuestion: 0,
         TotalNumberOfQuestions: 0,
-        NumberOfPlayers: 0,
         username: "",
         avatar: "",
         playerId: "",
@@ -41,7 +40,6 @@ export default new Vuex.Store({
         setSettings(state, data) {
             state.TimePerQuestion = data.TimePerQuestion;
             state.TotalNumberOfQuestions = data.TotalNumberOfQuestions;
-            state.NumberOfPlayers = data.NumberOfPlayers;
             router.push('/Avatar');
         },
         createPlayer(state, data) {

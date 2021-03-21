@@ -1,23 +1,6 @@
 <template>
   <div class="container">
     <h5>Game Settings</h5>
-    <div id="no-of-players" class="range-slider">
-      <span id="rs-bullet-no-of-players" class="rs-label">1</span>
-      <input
-        id="rs-range-line-no-of-players"
-        class="rs-range"
-        type="range"
-        value="1"
-        min="1"
-        max="6"
-      />
-    </div>
-    <div class="box-minmax">
-      <span>1</span>
-      <span class="settings-description">Players</span>
-      <span>6</span>
-    </div>
-
     <div class="range-slider">
       <span id="rs-bullet-no-of-questions" class="rs-label">10</span>
       <input
@@ -26,14 +9,14 @@
         type="range"
         value="10"
         min="10"
-        max="500"
+        max="150"
       />
     </div>
 
     <div class="box-minmax">
       <span>10</span>
       <span class="settings-description">Questions</span>
-      <span>500</span>
+      <span>150</span>
     </div>
     <div class="range-slider">
       <span id="rs-bullet-no-of-seconds" class="rs-label">5</span>
@@ -75,16 +58,13 @@ export default {
       this.rangeBullet[index].innerHTML = this.rangeSlider[index].value;
     },
     SetSettings() {
-      var numberOfPlayers = Number(
-        document.getElementById("rs-bullet-no-of-players").innerHTML
-      );
       var numberOfQuestions = Number(
         document.getElementById("rs-bullet-no-of-questions").innerHTML
       );
       var secondsPerQuestion = Number(
         document.getElementById("rs-bullet-no-of-seconds").innerHTML
       );
-      var data = { numberOfPlayers, numberOfQuestions, secondsPerQuestion };
+      var data = { numberOfQuestions, secondsPerQuestion };
       this.$store.dispatch("SetSettings", data);
     },
   },
@@ -124,7 +104,7 @@ $tertiary-color-hover: #12ae51e0;
   }
 }
 .range-slider {
-  margin-top: 7%;
+  margin-top: 20%;
 }
 .rs-range {
   margin-top: 29px;
@@ -257,6 +237,7 @@ a {
   font-size: 60%;
   $btn-color: $tertiary-color;
   color: $tertiary-color;
+  margin-top: 25%;
 }
 .create:before,
 .create:after {
