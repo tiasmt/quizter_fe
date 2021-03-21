@@ -297,7 +297,7 @@ $gray: #bbbbbb;
 
 .question {
   margin-top: 10%;
-  font-size: 70%;
+  font-size: 50%;
   text-align: center;
 }
 .leaderboard {
