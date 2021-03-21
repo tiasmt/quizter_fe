@@ -180,6 +180,8 @@ export default {
             that.answerEvent.target.classList.add("correct");
           } else {
             that.answerEvent.target.classList.add("wrong");
+            var element = document.getElementById("answer" + response.correctAnswerId);
+            element.classList.add("correct-answer");
           }
           that.correctQuestions = response.correctAnswers;
           that.totalQuestions = response.correctAnswers + response.wrongAnswers;
@@ -189,6 +191,14 @@ export default {
     onUpdateGame({ game }) {
       if (this.game.id !== game.id) {
         this.game = { game };
+      }
+    },
+    ClearClasses() {
+      for(var i = 1; i <= 4; i++)
+      {
+        var element = document.getElementById("answer"+i);
+        if(element != null)
+          element.classList.remove("correct-answer");
       }
     },
     ResetTimer() {
@@ -228,7 +238,7 @@ export default {
         that.answerEvent.target.classList.remove("wrong");
         that.answerEvent.target.classList.remove("correct");
       }
-
+      this.ClearClasses();
       that.$store.commit("setQuestion", payload);
     });
 
@@ -453,6 +463,9 @@ button#answer6.chosen {
     content: "\f00c";
   }
 }
+
+
+
 .wrong {
   font-size: 13px;
   color: white !important;
@@ -461,6 +474,12 @@ button#answer6.chosen {
     font-family: "FontAwesome";
     content: "\f00d";
   }
+}
+
+.correct-answer {
+  border-color: rgb(29, 126, 29);
+  color: rgb(35, 119, 35) !important;
+  background: rgba(35, 119, 35, 0.255);
 }
 .avatar {
   margin-top: 5%;
