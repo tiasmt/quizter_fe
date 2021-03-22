@@ -35,7 +35,7 @@ html{
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
     color: #2c3e50;
-    background-color: #dee2e6;
+    background-color: #151411c7;
 }
 @-webkit-keyframes criss-cross-left {
   0% {
