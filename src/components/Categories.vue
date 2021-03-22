@@ -8,7 +8,7 @@
         :key="category.name"
         :style="{
           backgroundImage:
-            'linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url(' +
+            'linear-gradient(rgba(0,0,0,0.20),rgba(0,0,0,1)), url(' +
             category.imageURL +
             ')',
         }"
@@ -28,42 +28,42 @@ export default {
         {
           name: "movies",
           class: "red",
-          imageURL: require("../assets/images/movies.jpg")
+          imageURL: require("../assets/images/movies.jpg"),
         },
         {
           name: "music",
           class: "blue",
-          imageURL: require("../assets/images/music.jpg")
+          imageURL: require("../assets/images/music.jpg"),
         },
         {
           name: "sports",
           class: "orange",
-          imageURL: require("../assets/images/sports.jpg")
+          imageURL: require("../assets/images/sports.jpg"),
         },
         {
           name: "animals",
           class: "yellow",
-          imageURL: require("../assets/images/animals200x200.jpg")
+          imageURL: require("../assets/images/animals.jpg"),
         },
         {
           name: "science",
           class: "gold",
-          imageURL: require("../assets/images/science200x200.jpg")
+          imageURL: require("../assets/images/science.jpg"),
         },
         {
           name: "history",
           class: "grey",
-          imageURL: require("../assets/images/history200x200.jpg")
+          imageURL: require("../assets/images/history.jpg"),
         },
         {
           name: "geography",
           class: "green",
-          imageURL: require("../assets/images/music200x200.jpg")
+          imageURL: require("../assets/images/geography.jpg"),
         },
         {
           name: "general",
           class: "purple",
-          imageURL: require("../assets/images/random200x200.jpg")
+          imageURL: require("../assets/images/general.jpg"),
         },
       ],
     };
@@ -103,39 +103,39 @@ $eighth-color: #f8cc3b98;
 $ninth-color: #f8cc3b98;
 /* background-color: #dee2e6 */
 .movies {
-  border: 2px solid $primary-color;
+  border: 1px solid $primary-color;
   color: $primary-color;
 }
 .music {
-  border: 2px solid $secondary-color;
+  border: 1px solid $secondary-color;
   color: $secondary-color;
 }
 .sports {
-  border: 2px solid $tertiary-color;
+  border: 1px solid $tertiary-color;
   color: $tertiary-color;
 }
 .animals {
-  border: 2px solid $fourth-color;
+  border: 1px solid $fourth-color;
   color: $fourth-color;
 }
 .food {
-  border: 2px solid $fifth-color;
+  border: 1px solid $fifth-color;
   color: $fifth-color;
 }
 .science {
-  border: 2px solid $sixth-color;
+  border: 1px solid $sixth-color;
   color: $sixth-color;
 }
 .history {
-  border: 2px solid $seventh-color;
+  border: 1px solid $seventh-color;
   color: $seventh-color;
 }
 .geography {
-  border: 2px solid $eighth-color;
+  border: 1px solid $eighth-color;
   color: $eighth-color;
 }
 .general {
-  border: 2px solid $ninth-color;
+  border: 1px solid $ninth-color;
   color: $ninth-color;
 }
 .container {
@@ -170,7 +170,7 @@ h4 {
   text-align: center;
 }
 .grid-container > div {
-  border-radius: 50px;
+  border-radius: 100px;
   cursor: pointer;
   font-weight: 500;
 }
@@ -178,14 +178,13 @@ h4 {
 .item {
   display: flex;
   overflow: hidden;
-  margin: 1rem auto;
   text-transform: uppercase;
-  margin: 3%;
+  margin: 2% 5%;
   justify-content: center;
   transition: 0.35s;
-  transform: scale(0.95);
+  transform: scale(0.98);
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
 }
 /* 
@@ -225,9 +224,10 @@ h4 {
 @media (min-width: 320px) and (max-width: 480px) {
   h5 {
     font-weight: 300;
-    font-size: 60%;
-    text-align: center;
+    font-size: 50%;
+    text-align: left;
     margin-top: 40%;
+    margin-left: -55%;
   }
   h4 {
     font-weight: 500;
@@ -248,7 +248,7 @@ h4 {
       "item4"
       "item5"
       "item6";
-    text-align: center;
+    text-align: left;
   }
   .item > a {
     font-size: 40%;
