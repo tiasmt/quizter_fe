@@ -1,42 +1,29 @@
 <template>
-  <div class="container">
-    <h5>Game Settings</h5>
-    <div class="range-slider">
-      <span id="rs-bullet-no-of-questions" class="rs-label">10</span>
-      <input
-        id="rs-range-line-no-of-questions"
-        class="rs-range"
-        type="range"
-        value="10"
-        min="10"
-        max="150"
-      />
-    </div>
+  <div class="parent" @mousemove="ReDraw($event)" @mouseup="IsDragging(false)">
+    <h4>Settings</h4>
+    <div class="container">
+      <div id="number-of-questions" class="text">75</div>
+      <div id="number-of-questions-circle" class="circle">
+        <div
+          @mousedown="IsDragging($event, true)"
+          id="number-of-questions-slider"
+          class="slider"
+        ></div>
+      </div>
+      <span class="settings-label">Number Of Questions</span>
 
-    <div class="box-minmax">
-      <span>10</span>
-      <span class="settings-description">Questions</span>
-      <span>150</span>
-    </div>
-    <div class="range-slider">
-      <span id="rs-bullet-no-of-seconds" class="rs-label">5</span>
-      <input
-        id="rs-range-line-no-of-seconds"
-        class="rs-range"
-        type="range"
-        value="5"
-        min="5"
-        max="60"
-      />
-    </div>
+      <div id="time-per-question" class="text">10</div>
+      <div id="time-per-question-circle" class="circle">
+        <div
+          @mousedown="IsDragging($event, true)"
+          id="time-per-question-slider"
+          class="slider"
+        ></div>
+      </div>
+      <span class="settings-label">Time Per Question</span>
 
-    <div class="box-minmax">
-      <span>5</span>
-      <span class="settings-description">Time / Question</span>
-      <span>60</span>
+      <a class="next" @click="SetSettings()">Next</a>
     </div>
-
-    <a class="create" @click="SetSettings()">Next</a>
   </div>
 </template>
 
@@ -46,6 +33,8 @@ export default {
     return {
       rangeSlider: [],
       rangeBullet: [],
+      isDragging: false,
+      currentSlider: "",
     };
   },
   methods: {
@@ -59,13 +48,44 @@ export default {
     },
     SetSettings() {
       var numberOfQuestions = Number(
-        document.getElementById("rs-bullet-no-of-questions").innerHTML
+        document.getElementById("number-of-questions").innerHTML
       );
       var secondsPerQuestion = Number(
-        document.getElementById("rs-bullet-no-of-seconds").innerHTML
+        document.getElementById("time-per-question").innerHTML
       );
       var data = { numberOfQuestions, secondsPerQuestion };
       this.$store.dispatch("SetSettings", data);
+    },
+    IsDragging(e, state) {
+      this.isDragging = state;
+      if (e.type == "mousedown") {
+        this.currentSlider = e.target.offsetParent.id;
+      }
+    },
+    ReDraw(e) {
+      if (this.isDragging) {
+        var circle = document.getElementById(this.currentSlider);
+        var slider = circle.children[0];
+        var centreX = circle.getBoundingClientRect().x + 80;
+        var centreY = circle.getBoundingClientRect().y + 80;
+        var posX = e.pageX;
+        var posY = e.pageY;
+        var deltaX = centreX - posX;
+        var deltaY = centreY - posY;
+        var angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+        angle -= 90;
+        if (angle < 0) angle = 360 + angle;
+        angle = Math.round(angle);
+        if (180 > angle && angle > 150) angle = 150;
+        if (180 < angle && angle < 215) angle = 215;
+
+        slider.style.transform = "rotate(" + angle + "deg)";
+        var value = angle > 150 ? angle - 215 : angle + 150;
+        document.getElementById("number-of-questions").innerHTML = Math.round(
+          (value / 295) * 10
+        );
+        // document.getElementById("number-of-questions").innerHTML = Math.round(angle);
+      }
     },
   },
   mounted() {
@@ -79,134 +99,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$primary-color: #7dadff;
-$primary-color-dark: #4d8eff;
-$tertiary-color: #77da9e;
-$tertiary-color-hover: #12ae51e0;
+$primary-color: #f5bb3e;
+$primary-color-dark: #f8ba33;
+$tertiary-color: #f5bb3e;
+$tertiary-color-hover: #f8ba33;
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   --btn-width-max: 125px;
   --btn-width-min: 125px;
   --btn-height: 60px;
 }
-.box-minmax {
-  margin-top: 30px;
-  width: 80%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 20px;
-  color: $primary-color;
-  span:first-child {
-    margin-left: 10px;
-  }
-}
-.range-slider {
-  margin-top: 20%;
-}
-.rs-range {
-  margin-top: 29px;
-  width: 280px;
-  -webkit-appearance: none;
-  &:focus {
-    outline: none;
-  }
-  &::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 1px;
-    cursor: pointer;
-    box-shadow: none;
-    background: $primary-color;
-    border-radius: 0px;
-    border: 0px solid #010101;
-  }
-  &::-moz-range-track {
-    width: 100%;
-    height: 1px;
-    cursor: pointer;
-    box-shadow: none;
-    background: $primary-color;
-    border-radius: 0px;
-    border: 0px solid #010101;
-  }
 
-  &::-webkit-slider-thumb {
-    box-shadow: none;
-    border: 0px solid $primary-color;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
-    height: 42px;
-    width: 22px;
-    border-radius: 22px;
-    background: $primary-color;
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -20px;
-  }
-  &::-moz-range-thumb {
-    box-shadow: none;
-    border: 0px solid $primary-color;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
-    height: 42px;
-    width: 22px;
-    border-radius: 22px;
-    background: $primary-color;
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -20px;
-  }
-  &::-moz-focus-outer {
-    border: 0;
-  }
+h4 {
+  font-weight: 500;
+  font-size: 100%;
+  text-align: left;
+  margin-bottom: 10%;
+  margin-top: 0px;
 }
-.rs-label {
-  position: relative;
-  transform-origin: center center;
-  display: block;
-  width: 35px;
-  height: 35px;
-  background: transparent;
-  border-radius: 50%;
-  line-height: 30px;
-  text-align: center;
-  font-weight: bold;
-  padding-top: 4px;
-  box-sizing: border-box;
-  border: 2px solid $primary-color-dark;
-  margin-left: -38px;
-  left: 55%;
-  color: $primary-color;
-  font-style: normal;
-  font-weight: normal;
-  line-height: normal;
-  font-size: 40%;
-  margin-bottom: -20px;
-  &::after {
-    content: " ";
-    display: inline;
-    font-size: 70%;
-    letter-spacing: 0.07em;
-  }
-}
-h5 {
-  margin-bottom: 0px;
-  &::after {
-    display: block;
-    height: 2px;
-    background-color: $primary-color;
-    content: " ";
-    width: 100px;
-    margin: 0 auto;
-    margin-top: 5px;
-  }
-}
-#no-of-players {
-  margin-top: 13%;
-}
-.settings-description {
-  color: #2c3e50;
-}
+
 a {
   text-align: center;
   text-decoration: none;
@@ -222,7 +135,79 @@ a {
 *:after {
   z-index: -1;
 }
-.create {
+
+.text {
+  color: $tertiary-color;
+  left: 8.5%;
+  text-align: center;
+  transform: translate3d(-50%, 325%, 0);
+  z-index: 1;
+  height: 50px;
+  width: 81px;
+  background-image: radial-gradient(#2f2e2c, #2f2e2c 60%,#2f2e2c00 68%);
+  position: relative;
+  // border-radius: 0%;
+}
+
+
+.circle {
+  top: 50%;
+  left: 50%;
+  background-color: $tertiary-color;
+  border-radius: 50%;
+  width: 35%;
+  height: 0;
+  padding-bottom: 35%;
+  transform: translate3d(-50%, -50%, 0);
+  box-shadow: 0 0 10px rgba(#000, 0.5);
+  margin-top: 15%;
+  margin-left: 35%;
+  &:before {
+    content: "";
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    background-color: #2e2d2b;
+    border-radius: 50%;
+    top: 5%;
+    left: 5%;
+    box-shadow: inset 0 0 10px rgba(#000, 0.5);
+  }
+}
+
+.slider {
+  position: absolute;
+  width: 10%;
+  height: 50%;
+  left: 44%;
+  top: 0;
+  transform: rotate(0deg);
+  transform-origin: center bottom;
+
+  &:before {
+    content: "";
+    position: absolute;
+    background-color: $tertiary-color-hover;
+    // box-shadow: 0 0 10px #000;
+    width: 120%;
+    transform: translate3d(-25%, -25%, 0);
+    height: 0;
+    padding-bottom: 120%;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    overflow: visible;
+  }
+}
+
+.settings-label {
+  font-size: 60%;
+  margin-top: -10%;
+  margin-bottom: 5%;
+}
+
+// button
+.next {
   position: relative;
   display: block;
   overflow: hidden;
@@ -232,15 +217,14 @@ a {
   text-transform: uppercase;
   border: 1px solid currentColor;
   border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.048);
   font-weight: 400;
   font-size: 60%;
   $btn-color: $tertiary-color;
   color: $tertiary-color;
   margin-top: 25%;
 }
-.create:before,
-.create:after {
+.next:before,
+.next:after {
   position: absolute;
   top: 50%;
   content: "";
@@ -248,31 +232,31 @@ a {
   height: 20px;
   border-radius: 50%;
 }
-.create:before,
-.create:after {
+.next:before,
+.next:after {
   background-color: $tertiary-color-hover;
-  color: whitesmoke;
+  color: rgba(0, 0, 0, 0.59);
 }
-.create:before {
+.next:before {
   left: -20px;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-.create:after {
+.next:after {
   right: -20px;
   -webkit-transform: translate(50%, -50%);
   transform: translate(50%, -50%);
 }
-.create:hover {
-  color: whitesmoke;
+.next:hover {
+  color: rgba(0, 0, 0, 0.59);
 }
-.create:hover:before {
+.next:hover:before {
   -webkit-animation: criss-cross-left 0.8s both;
   animation: criss-cross-left 0.8s both;
   -webkit-animation-direction: alternate;
   animation-direction: alternate;
 }
-.create:hover:after {
+.next:hover:after {
   -webkit-animation: criss-cross-right 0.8s both;
   animation: criss-cross-right 0.8s both;
   -webkit-animation-direction: alternate;

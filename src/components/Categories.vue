@@ -89,18 +89,18 @@ export default {
 // $seventh-color: #5acfc9;
 // $eighth-color: #ac649a;
 // $ninth-color: #5ed1a1;
-$primary-color: #f8cc3b98;
-$primary-color-hover: #f8cc3b98;
-$secondary-color: #f8cc3b98;
-$secondary-color-hover: #f8cc3b98;
-$tertiary-color: #f8cc3b98;
-$tertiary-color-hover: #f8cc3b98;
-$fourth-color: #f8cc3b98;
-$fifth-color: #f8cc3b98;
-$sixth-color: #f8cc3b98;
-$seventh-color: #f8cc3b98;
-$eighth-color: #f8cc3b98;
-$ninth-color: #f8cc3b98;
+$primary-color: #f5bb3e;
+$primary-color-hover: #f5bb3e;
+$secondary-color: #f5bb3e;
+$secondary-color-hover: #f5bb3e;
+$tertiary-color: #f5bb3e;
+$tertiary-color-hover: #f5bb3e;
+$fourth-color: #f5bb3e;
+$fifth-color: #f5bb3e;
+$sixth-color: #f5bb3e;
+$seventh-color: #f5bb3e;
+$eighth-color: #f5bb3e;
+$ninth-color: #f5bb3e;
 /* background-color: #dee2e6 */
 .movies {
   border: 1px solid $primary-color; 
