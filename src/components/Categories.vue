@@ -103,7 +103,7 @@ $eighth-color: #f8cc3b98;
 $ninth-color: #f8cc3b98;
 /* background-color: #dee2e6 */
 .movies {
-  border: 1px solid $primary-color;
+  border: 1px solid $primary-color; 
   color: $primary-color;
 }
 .music {
