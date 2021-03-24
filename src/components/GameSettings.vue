@@ -2,24 +2,22 @@
   <div class="parent" @mousemove="ReDraw($event)" @mouseup="IsDragging(false)">
     <h4>Settings</h4>
     <div class="container">
-      <div id="number-of-questions" class="text">75</div>
-      <div id="number-of-questions-circle" class="circle">
-        <div
-          @mousedown="IsDragging($event, true)"
-          id="number-of-questions-slider"
-          class="slider"
-        ></div>
-      </div>
+      <div id="number-of-questions" class="text">100</div>
+      <div id="number-of-questions-circle" class="circle"></div>
+      <div
+        @mousedown="IsDragging($event, true)"
+        id="number-of-questions-slider"
+        class="slider"
+      ></div>
       <span class="settings-label">Number Of Questions</span>
 
-      <div id="time-per-question" class="text">10</div>
-      <div id="time-per-question-circle" class="circle">
-        <div
-          @mousedown="IsDragging($event, true)"
-          id="time-per-question-slider"
-          class="slider"
-        ></div>
-      </div>
+      <div id="time-per-question" class="text">30</div>
+      <div id="time-per-question-circle" class="circle"></div>
+      <div
+        @mousedown="IsDragging($event, true)"
+        id="time-per-question-slider"
+        class="slider"
+      ></div>
       <span class="settings-label">Time Per Question</span>
 
       <a class="next" @click="SetSettings()">Next</a>
@@ -35,6 +33,9 @@ export default {
       rangeBullet: [],
       isDragging: false,
       currentSlider: "",
+      currentCircle: "",
+      currentSpan: "",
+      max: 0
     };
   },
   methods: {
@@ -59,13 +60,18 @@ export default {
     IsDragging(e, state) {
       this.isDragging = state;
       if (e.type == "mousedown") {
-        this.currentSlider = e.target.offsetParent.id;
+        this.currentCircle = e.target.previousElementSibling.id;
+        this.currentSlider = e.target.id;
+        this.currentSpan = this.currentSlider.includes("number")
+          ? document.getElementById("number-of-questions")
+          : document.getElementById("time-per-question");
+        this.max = this.currentSlider.includes("number") ? 200 : 60;
       }
     },
     ReDraw(e) {
       if (this.isDragging) {
-        var circle = document.getElementById(this.currentSlider);
-        var slider = circle.children[0];
+        var circle = document.getElementById(this.currentCircle);
+        var slider = document.getElementById(this.currentSlider);
         var centreX = circle.getBoundingClientRect().x + 80;
         var centreY = circle.getBoundingClientRect().y + 80;
         var posX = e.pageX;
@@ -76,14 +82,12 @@ export default {
         angle -= 90;
         if (angle < 0) angle = 360 + angle;
         angle = Math.round(angle);
-        if (180 > angle && angle > 150) angle = 150;
+        if (180 > angle && angle > 140) angle = 140;
         if (180 < angle && angle < 215) angle = 215;
 
         slider.style.transform = "rotate(" + angle + "deg)";
-        var value = angle > 150 ? angle - 215 : angle + 150;
-        document.getElementById("number-of-questions").innerHTML = Math.round(
-          (value / 295) * 10
-        );
+        var value = angle > 140 ? angle - 215 : angle + 140;
+        this.currentSpan.innerHTML = Math.round((value / 280) * this.max);
         // document.getElementById("number-of-questions").innerHTML = Math.round(angle);
       }
     },
@@ -144,11 +148,10 @@ a {
   z-index: 1;
   height: 50px;
   width: 81px;
-  background-image: radial-gradient(#2f2e2c, #2f2e2c 60%,#2f2e2c00 68%);
+  background-color: #2f2e2c;
   position: relative;
-  // border-radius: 0%;
+  border-radius: 50%;
 }
-
 
 .circle {
   top: 50%;
@@ -176,33 +179,33 @@ a {
 }
 
 .slider {
-  position: absolute;
-  width: 10%;
-  height: 50%;
-  left: 44%;
-  top: 0;
+  position: relative;
+  width: 12px;
+  height: 80px;
   transform: rotate(0deg);
   transform-origin: center bottom;
-
+  top: -235px;
+  left: 0%;
+  z-index: 3;
+  // background: red;
+  content: "";
   &:before {
     content: "";
     position: absolute;
     background-color: $tertiary-color-hover;
-    // box-shadow: 0 0 10px #000;
-    width: 120%;
+    box-shadow: 0 0 10px #000;
+    width: 220%;
     transform: translate3d(-25%, -25%, 0);
     height: 0;
-    padding-bottom: 120%;
+    padding-bottom: 220%;
     border-radius: 50%;
     cursor: pointer;
-    z-index: 2;
-    overflow: visible;
   }
 }
 
 .settings-label {
   font-size: 60%;
-  margin-top: -10%;
+  margin-top: -30%;
   margin-bottom: 5%;
 }
 
