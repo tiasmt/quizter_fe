@@ -245,7 +245,6 @@ $yellow: rgb(251, 238, 51);
 $blue: rgb(0, 89, 253);
 $gray: #bbbbbb;
 .navbar {
-  border: 1px solid;
   display: flex;
 }
 .questions,
@@ -253,14 +252,14 @@ $gray: #bbbbbb;
   text-align: center;
   height: 7vh;
   cursor: pointer;
+  color: rgb(46, 44, 44);
 }
 .questions {
   width: 50%;
-  border-right: 1px solid;
-  background: #1ecd97;
+  background: #148762;
   &:hover,
   &:active {
-    background: rgb(23, 156, 114);
+    background: rgb(25, 85, 66);
   }
 }
 
@@ -272,10 +271,10 @@ $gray: #bbbbbb;
 .leaderboard {
   width: 50%;
   float: right;
-  background: rgb(211, 160, 93);
+  background: rgb(199, 130, 40);
   &:hover,
   &:active {
-    background: rgb(204, 139, 55);
+    background: rgb(206, 120, 8);
   }
 }
 h5 {
@@ -301,7 +300,7 @@ button {
   text-align: center;
   width: 130px;
   border-radius: 40px;
-  background: #fff;
+  background: #2f2e2c;
   letter-spacing: 1px;
   text-shadow: 0;
   font: {
@@ -327,42 +326,42 @@ button#answer1 {
   color: $turquoise;
 }
 button#answer1.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $turquoise;
 }
 button#answer2 {
   color: $navy;
 }
 button#answer2.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $navy;
 }
 button#answer3 {
   color: $purple;
 }
 button#answer3.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $purple;
 }
 button#answer4 {
   color: $orange;
 }
 button#answer4.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $orange;
 }
 button#answer5 {
   color: $yellow;
 }
 button#answer5.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $yellow;
 }
 button#answer6 {
   color: $blue;
 }
 button#answer6.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $blue;
 }
 .checking {
@@ -376,7 +375,7 @@ button#answer6.chosen {
   }
   &:hover {
     color: $red;
-    background: white;
+    background: #2f2e2c;
   }
 }
 #answer1.checking {
@@ -387,7 +386,7 @@ button#answer6.chosen {
   }
   &:hover {
     color: $turquoise;
-    background: white;
+    background: #2f2e2c;
   }
 }
 #answer2.checking {
@@ -398,7 +397,7 @@ button#answer6.chosen {
   }
   &:hover {
     color: $navy;
-    background: white;
+    background: #2f2e2c;
   }
 }
 #answer3.checking {
@@ -409,7 +408,7 @@ button#answer6.chosen {
   }
   &:hover {
     color: $purple;
-    background: white;
+    background: #2f2e2c;
   }
 }
 #answer4.checking {
@@ -420,12 +419,12 @@ button#answer6.chosen {
   }
   &:hover {
     color: $orange;
-    background: white;
+    background: #2f2e2c;
   }
 }
 .correct {
   font-size: 13px;
-  color: white;
+  color: #2f2e2c;
   background: $green;
   &:after {
     font-family: "FontAwesome";
@@ -479,6 +478,7 @@ button#answer6.chosen {
   height: 80px;
   width: 95px;
   margin-left: 30%;
+  margin-top: 5%;
 }
 
 .username {
@@ -519,7 +519,7 @@ button#answer6.chosen {
 }
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefebc;
+  background-color: #2f2e2c;
   margin: 50% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
@@ -530,7 +530,7 @@ button#answer6.chosen {
 }
 .modal-content button {
   background-color: #22901ebc;
-  color: white;
+  color: #2f2e2c;
   margin: 5%;
 }
 </style>
