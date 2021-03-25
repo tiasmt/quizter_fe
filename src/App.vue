@@ -28,14 +28,14 @@ body{
     padding: 0px;
 }
 html{
-    // font-family: 'Montserrat'
-    font-family: 'Open Sans', Helvetica, arial, sans-serif;
-    font-weight: 500;
+    // font-family: 'Montserrat';
+    font-family: "Inter", sans-serif;
+    font-weight: 300;
     font-size: 40px;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
-    color: #2c3e50;
-    background-color: #dee2e6;
+    color: #d3aa22;
+    background-color: #151411e2;
 }
 @-webkit-keyframes criss-cross-left {
   0% {

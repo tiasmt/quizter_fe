@@ -13,7 +13,7 @@
         :style="{
           backgroundImage:
             'url(' +
-            require('../assets/images/Simpsons/' + player.avatar + '.png') +
+            require('../assets/images/' + player.avatar + '.png') +
             ')',
         }"
       >
@@ -35,13 +35,12 @@
       </div>
       <basetimer></basetimer>
       <div v-if="questionsScreen" class="questions-screen">
-        <div class="avatar">
-          <homer v-show="isHomer()"></homer>
-          <bart v-show="isBart()"></bart>
-          <krusty v-show="isKrusty()"></krusty>
-          <marge v-show="isMarge()"></marge>
-          <maggie v-show="isMaggie()"></maggie>
-          <lisa v-show="isLisa()"></lisa>
+        <div class="avatar" :style="{
+          backgroundImage:
+            'url(' +
+            require('../assets/images/' + avatar + '.png') +
+            ')',
+        }">
         </div>
 
         <div class="question">
@@ -80,12 +79,6 @@
 
 <script>
 import { mapState } from "vuex";
-import homer from "./avatars/Homer";
-import bart from "./avatars/Bart";
-import krusty from "./avatars/Krusty";
-import marge from "./avatars/Marge";
-import maggie from "./avatars/Maggie";
-import lisa from "./avatars/Lisa";
 import basetimer from "./partial/BaseTimer.vue";
 export default {
   data() {
@@ -118,24 +111,6 @@ export default {
     ]),
   },
   methods: {
-    isHomer() {
-      if (this.avatar == "homer") return true;
-    },
-    isBart() {
-      if (this.avatar == "bart") return true;
-    },
-    isKrusty() {
-      if (this.avatar == "krusty") return true;
-    },
-    isMarge() {
-      if (this.avatar == "marge") return true;
-    },
-    isMaggie() {
-      if (this.avatar == "maggie") return true;
-    },
-    isLisa() {
-      if (this.avatar == "lisa") return true;
-    },
     SetScreen(state) {
       this.questionsScreen = state;
     },
@@ -217,12 +192,6 @@ export default {
     },
   },
   components: {
-    homer: homer,
-    bart: bart,
-    krusty: krusty,
-    marge: marge,
-    maggie: maggie,
-    lisa: lisa,
     basetimer: basetimer,
   },
   created() {
@@ -276,7 +245,6 @@ $yellow: rgb(251, 238, 51);
 $blue: rgb(0, 89, 253);
 $gray: #bbbbbb;
 .navbar {
-  border: 1px solid;
   display: flex;
 }
 .questions,
@@ -284,14 +252,14 @@ $gray: #bbbbbb;
   text-align: center;
   height: 7vh;
   cursor: pointer;
+  color: rgb(46, 44, 44);
 }
 .questions {
   width: 50%;
-  border-right: 1px solid;
-  background: #1ecd97;
+  background: #148762;
   &:hover,
   &:active {
-    background: rgb(23, 156, 114);
+    background: rgb(25, 85, 66);
   }
 }
 
@@ -303,10 +271,10 @@ $gray: #bbbbbb;
 .leaderboard {
   width: 50%;
   float: right;
-  background: rgb(211, 160, 93);
+  background: rgb(199, 130, 40);
   &:hover,
   &:active {
-    background: rgb(204, 139, 55);
+    background: rgb(206, 120, 8);
   }
 }
 h5 {
@@ -332,7 +300,7 @@ button {
   text-align: center;
   width: 130px;
   border-radius: 40px;
-  background: #fff;
+  background: #2f2e2c;
   letter-spacing: 1px;
   text-shadow: 0;
   font: {
@@ -358,42 +326,42 @@ button#answer1 {
   color: $turquoise;
 }
 button#answer1.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $turquoise;
 }
 button#answer2 {
   color: $navy;
 }
 button#answer2.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $navy;
 }
 button#answer3 {
   color: $purple;
 }
 button#answer3.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $purple;
 }
 button#answer4 {
   color: $orange;
 }
 button#answer4.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $orange;
 }
 button#answer5 {
   color: $yellow;
 }
 button#answer5.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $yellow;
 }
 button#answer6 {
   color: $blue;
 }
 button#answer6.chosen {
-  color: white;
+  color: #2f2e2c;
   background: $blue;
 }
 .checking {
@@ -407,7 +375,7 @@ button#answer6.chosen {
   }
   &:hover {
     color: $red;
-    background: white;
+    background: #2f2e2c;
   }
 }
 #answer1.checking {
@@ -418,7 +386,7 @@ button#answer6.chosen {
   }
   &:hover {
     color: $turquoise;
-    background: white;
+    background: #2f2e2c;
   }
 }
 #answer2.checking {
@@ -429,7 +397,7 @@ button#answer6.chosen {
   }
   &:hover {
     color: $navy;
-    background: white;
+    background: #2f2e2c;
   }
 }
 #answer3.checking {
@@ -440,7 +408,7 @@ button#answer6.chosen {
   }
   &:hover {
     color: $purple;
-    background: white;
+    background: #2f2e2c;
   }
 }
 #answer4.checking {
@@ -451,12 +419,12 @@ button#answer6.chosen {
   }
   &:hover {
     color: $orange;
-    background: white;
+    background: #2f2e2c;
   }
 }
 .correct {
   font-size: 13px;
-  color: white;
+  color: #2f2e2c;
   background: $green;
   &:after {
     font-family: "FontAwesome";
@@ -483,6 +451,10 @@ button#answer6.chosen {
 }
 .avatar {
   margin-top: 5%;
+  margin-left: 27%;
+  height: 160px;
+  width: 160px;
+  background-size: 100%;
 }
 
 #krusty {
@@ -503,9 +475,10 @@ button#answer6.chosen {
 }
 
 .player-avatar {
-  height: 85px;
-  width: 60px;
+  height: 80px;
+  width: 95px;
   margin-left: 30%;
+  margin-top: 5%;
 }
 
 .username {
@@ -513,16 +486,14 @@ button#answer6.chosen {
   margin-left: 130%;
 }
 
-.bart,
-.krusty,
-.lisa,
-.maggie,
-.homer,
-.marge {
-  background-size: 100%;
+.Avatar1,
+.Avatar2,
+.Avatar3,
+.Avatar4,
+.Avatar5,
+.Avatar6 {
+  background-size: 105%;
   border: 1px solid #888;
-  margin-top: 1%;
-  padding: 1%;
   border-radius: 10px;
 }
 @keyframes rotating {
@@ -548,7 +519,7 @@ button#answer6.chosen {
 }
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefebc;
+  background-color: #2f2e2c;
   margin: 50% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
@@ -559,7 +530,7 @@ button#answer6.chosen {
 }
 .modal-content button {
   background-color: #22901ebc;
-  color: white;
+  color: #2f2e2c;
   margin: 5%;
 }
 </style>
