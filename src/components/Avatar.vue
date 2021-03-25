@@ -1,31 +1,58 @@
 <template>
   <div class="container">
-    <h5>Avatar</h5>
+    <h4>Avatar</h4>
     <div class="input">
       <input placeholder="Username" type="text" v-model="username" required />
     </div>
-    <div class="grid-container">
-      <div class="avatar" @click="CreatePlayer('homer')"><homer></homer></div>
-      <div class="avatar" @click="CreatePlayer('bart')"><bart></bart></div>
-      <div class="avatar" @click="CreatePlayer('krusty')"><krusty></krusty></div>
-      <div class="avatar" @click="CreatePlayer('maggie')"><maggie></maggie></div>
-      <div class="avatar" @click="CreatePlayer('marge')"><marge></marge></div>
-      <div class="avatar" @click="CreatePlayer('lisa')"><lisa></lisa></div>
-    </div>
+        <div class="grid-container">
+      <div
+        :class="['avatar ' + avatar.name]"
+        v-for="avatar in avatars"
+        :key="avatar.name"
+        :style="{
+          backgroundImage:
+            'url(' +
+            avatar.imageURL +
+            ')',
+        }"
+        @click="CreatePlayer(avatar.name)"
+      >
+      </div>
+        </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import homer from "./avatars/Homer";
-import bart from "./avatars/Bart";
-import krusty from "./avatars/Krusty";
-import marge from "./avatars/Marge";
-import maggie from "./avatars/Maggie";
-import lisa from "./avatars/Lisa";
 export default {
   data() {
     return {
+      avatars: [
+        {
+          name: "Avatar1",
+          imageURL: require("../assets/images/Avatar1.png"),
+        },
+        {
+          name: "Avatar2",
+          imageURL: require("../assets/images/Avatar2.png"),
+        },
+        {
+          name: "Avatar3",
+          imageURL: require("../assets/images/Avatar3.png"),
+        },
+        {
+          name: "Avatar4",
+          imageURL: require("../assets/images/Avatar4.png"),
+        },
+        {
+          name: "Avatar5",
+          imageURL: require("../assets/images/Avatar5.png"),
+        },
+        {
+          name: "Avatar6",
+          imageURL: require("../assets/images/Avatar6.png"),
+        }
+      ],
       username: ""
     };
   },
@@ -45,25 +72,17 @@ export default {
   created() {
     this.$gameHub.JoinGroup(this.gameName);
   },
-  components: {
-    homer: homer,
-    bart: bart,
-    krusty: krusty,
-    marge: marge,
-    maggie: maggie,
-    lisa: lisa,
-  },
 };
 </script>
 
 <style lang="scss" scoped>
-$primary-color: #7dadff;
-$primary-color-dark: #4d8eff;
+$primary-color: #f8ba33;
+$primary-color-dark: #f8b21a;
 $tertiary-color: #77da9e;
 $tertiary-color-hover: #12ae51e0;
 
 .container {
-  display: flex;
+  // display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -87,22 +106,7 @@ $tertiary-color-hover: #12ae51e0;
   position: relative;
   z-index: 1;
   border: 1px solid $primary-color-dark;
-  color: white;
-}
-
-h5 {
-  margin-top: 3%;
-  margin-bottom: 2%;
-
-  &::after {
-    display: block;
-    height: 2px;
-    background-color: $primary-color;
-    content: " ";
-    width: 100px;
-    margin: 0 auto;
-    margin-top: 5px;
-  }
+  color: black;
 }
 
 .grid-container {
@@ -113,18 +117,27 @@ h5 {
   grid-template-areas:
     "homer bart krusty"
     "marge maggie lisa";
-  background: #dee2e6;
+    background-color: rgba(0, 0, 0, 0.048);
   text-align: center;
 }
 
 .avatar {
   cursor: pointer;
-  width: 200px;
-  margin: 10px;
-  border: 1px solid black;
-  border-radius: 45%;
-  background: rgba(0, 0, 0, 0.104);
+  width: 180px;
+  height: 200px;
+  margin: 3%;
+  border: 1px solid $primary-color;
+  border-radius: 10%;
+  background-size : 110%;
 }
+
+ h4 {
+    font-weight: 500;
+    font-size: 100%;
+    text-align: left;
+    margin-bottom: 10%;
+    margin-top: 0px;
+  }
 
 /* 
   ##Device = Most of the Smartphones Mobiles (Portrait)
@@ -133,13 +146,15 @@ h5 {
 @media (min-width: 320px) and (max-width: 480px) {
   .grid-container {
     grid-template-columns: 50% 50%;
+    
     grid-template-rows: auto;
     grid-template-areas:
-      "homer bart"
-      "krusty marge"
-      "maggie lisa";
-    background: #dee2e6;
+      "avatar1 avatar2"
+      "avatar3 avatar4"
+      "avatar5 avatar6";
     text-align: center;
   }
+
+  
 }
 </style>

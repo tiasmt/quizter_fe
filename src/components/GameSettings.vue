@@ -184,7 +184,7 @@ a {
   height: 80px;
   transform: rotate(0deg);
   transform-origin: center bottom;
-  top: -235px;
+  top: -225px;
   left: 0%;
   z-index: 3;
   // background: red;

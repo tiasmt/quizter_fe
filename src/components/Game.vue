@@ -13,7 +13,7 @@
         :style="{
           backgroundImage:
             'url(' +
-            require('../assets/images/Simpsons/' + player.avatar + '.png') +
+            require('../assets/images/' + player.avatar + '.png') +
             ')',
         }"
       >
@@ -35,13 +35,12 @@
       </div>
       <basetimer></basetimer>
       <div v-if="questionsScreen" class="questions-screen">
-        <div class="avatar">
-          <homer v-show="isHomer()"></homer>
-          <bart v-show="isBart()"></bart>
-          <krusty v-show="isKrusty()"></krusty>
-          <marge v-show="isMarge()"></marge>
-          <maggie v-show="isMaggie()"></maggie>
-          <lisa v-show="isLisa()"></lisa>
+        <div class="avatar" :style="{
+          backgroundImage:
+            'url(' +
+            require('../assets/images/' + avatar + '.png') +
+            ')',
+        }">
         </div>
 
         <div class="question">
@@ -80,12 +79,6 @@
 
 <script>
 import { mapState } from "vuex";
-import homer from "./avatars/Homer";
-import bart from "./avatars/Bart";
-import krusty from "./avatars/Krusty";
-import marge from "./avatars/Marge";
-import maggie from "./avatars/Maggie";
-import lisa from "./avatars/Lisa";
 import basetimer from "./partial/BaseTimer.vue";
 export default {
   data() {
@@ -118,24 +111,6 @@ export default {
     ]),
   },
   methods: {
-    isHomer() {
-      if (this.avatar == "homer") return true;
-    },
-    isBart() {
-      if (this.avatar == "bart") return true;
-    },
-    isKrusty() {
-      if (this.avatar == "krusty") return true;
-    },
-    isMarge() {
-      if (this.avatar == "marge") return true;
-    },
-    isMaggie() {
-      if (this.avatar == "maggie") return true;
-    },
-    isLisa() {
-      if (this.avatar == "lisa") return true;
-    },
     SetScreen(state) {
       this.questionsScreen = state;
     },
@@ -217,12 +192,6 @@ export default {
     },
   },
   components: {
-    homer: homer,
-    bart: bart,
-    krusty: krusty,
-    marge: marge,
-    maggie: maggie,
-    lisa: lisa,
     basetimer: basetimer,
   },
   created() {
@@ -483,6 +452,10 @@ button#answer6.chosen {
 }
 .avatar {
   margin-top: 5%;
+  margin-left: 27%;
+  height: 160px;
+  width: 160px;
+  background-size: 100%;
 }
 
 #krusty {
@@ -503,8 +476,8 @@ button#answer6.chosen {
 }
 
 .player-avatar {
-  height: 85px;
-  width: 60px;
+  height: 80px;
+  width: 95px;
   margin-left: 30%;
 }
 
@@ -513,16 +486,14 @@ button#answer6.chosen {
   margin-left: 130%;
 }
 
-.bart,
-.krusty,
-.lisa,
-.maggie,
-.homer,
-.marge {
-  background-size: 100%;
+.Avatar1,
+.Avatar2,
+.Avatar3,
+.Avatar4,
+.Avatar5,
+.Avatar6 {
+  background-size: 105%;
   border: 1px solid #888;
-  margin-top: 1%;
-  padding: 1%;
   border-radius: 10px;
 }
 @keyframes rotating {
