@@ -1,11 +1,18 @@
 <template>
-  <div class="parent" @mousemove="ReDraw($event)" @mouseup="IsDragging(false)">
+  <div
+    class="parent"
+    @mousemove="ReDraw($event)"
+    @mouseup="IsDragging(false)"
+    @touchmove="ReDraw($event)"
+    @touchend="IsDragging(false)"
+  >
     <h4>Settings</h4>
     <div class="container">
       <div id="number-of-questions" class="text">100</div>
       <div id="number-of-questions-circle" class="circle"></div>
       <div
         @mousedown="IsDragging($event, true)"
+        @touchstart="IsDragging($event, true)"
         id="number-of-questions-slider"
         class="slider"
       ></div>
@@ -15,6 +22,7 @@
       <div id="time-per-question-circle" class="circle"></div>
       <div
         @mousedown="IsDragging($event, true)"
+        @touchstart="IsDragging($event, true)"
         id="time-per-question-slider"
         class="slider"
       ></div>
@@ -35,7 +43,7 @@ export default {
       currentSlider: "",
       currentCircle: "",
       currentSpan: "",
-      max: 0
+      max: 0,
     };
   },
   methods: {
@@ -59,7 +67,7 @@ export default {
     },
     IsDragging(e, state) {
       this.isDragging = state;
-      if (e.type == "mousedown") {
+      if (e.type == "mousedown" || e.type == "touchstart") {
         this.currentCircle = e.target.previousElementSibling.id;
         this.currentSlider = e.target.id;
         this.currentSpan = this.currentSlider.includes("number")
@@ -70,12 +78,20 @@ export default {
     },
     ReDraw(e) {
       if (this.isDragging) {
+        var touch = undefined;
+        var posX, posY;
         var circle = document.getElementById(this.currentCircle);
         var slider = document.getElementById(this.currentSlider);
         var centreX = circle.getBoundingClientRect().x + 80;
         var centreY = circle.getBoundingClientRect().y + 80;
-        var posX = e.pageX;
-        var posY = e.pageY;
+        if (e.type == "touchmove") touch = e.targetTouches[0];
+        if (touch != undefined) {
+          posX = touch.pageX;
+          posY = touch.pageY;
+        } else {
+          posX = e.pageX;
+          posY = e.pageY;
+        }
         var deltaX = centreX - posX;
         var deltaY = centreY - posY;
         var angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
