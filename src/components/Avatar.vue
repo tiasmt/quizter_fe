@@ -82,7 +82,6 @@ $tertiary-color: #77da9e;
 $tertiary-color-hover: #12ae51e0;
 
 .container {
-  // display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -91,8 +90,7 @@ $tertiary-color-hover: #12ae51e0;
   --btn-height: 60px;
 }
 
-.input input[type="text"],
-.input input[type="password"] {
+.input input[type="text"] {
   margin: 15px auto;
   background-color: $primary-color;
   font-size: 40%;
@@ -107,6 +105,7 @@ $tertiary-color-hover: #12ae51e0;
   z-index: 1;
   border: 1px solid $primary-color-dark;
   color: black;
+  text-transform: uppercase;
 }
 
 .grid-container {
@@ -129,6 +128,10 @@ $tertiary-color-hover: #12ae51e0;
   border: 1px solid $primary-color;
   border-radius: 10%;
   background-size : 110%;
+}
+
+h4::first-letter {
+  font-size: 120%;
 }
 
  h4 {

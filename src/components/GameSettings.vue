@@ -98,12 +98,12 @@ export default {
         angle -= 90;
         if (angle < 0) angle = 360 + angle;
         angle = Math.round(angle);
-        if (180 > angle && angle > 140) angle = 140;
+        if (180 > angle && angle > 146) angle = 146;
         if (180 < angle && angle < 215) angle = 215;
 
         slider.style.transform = "rotate(" + angle + "deg)";
-        var value = angle > 140 ? angle - 215 : angle + 140;
-        this.currentSpan.innerHTML = Math.round((value / 280) * this.max);
+        var value = angle > 146 ? angle - 215 : angle + 146;
+        this.currentSpan.innerHTML = Math.round((value / 292) * this.max);
         // document.getElementById("number-of-questions").innerHTML = Math.round(angle);
       }
     },
@@ -131,7 +131,9 @@ $tertiary-color-hover: #f8ba33;
   --btn-width-min: 125px;
   --btn-height: 60px;
 }
-
+h4::first-letter {
+  font-size: 120%;
+}
 h4 {
   font-weight: 500;
   font-size: 100%;
@@ -220,7 +222,7 @@ a {
 }
 
 .settings-label {
-  font-size: 60%;
+  font-size: 50%;
   margin-top: -30%;
   margin-bottom: 5%;
 }
@@ -240,7 +242,7 @@ a {
   font-size: 60%;
   $btn-color: $tertiary-color;
   color: $tertiary-color;
-  margin-top: 25%;
+  margin-top: 5%;
 }
 .next:before,
 .next:after {

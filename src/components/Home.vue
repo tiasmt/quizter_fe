@@ -73,7 +73,6 @@ a {
   overflow: hidden;
   min-width: var(--btn-width-min);
   max-width: var(--btn-width-max);
-  margin-left: 5%;
   margin-top: 10%;
   text-transform: uppercase;
   border: 1px solid currentColor;

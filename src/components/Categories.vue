@@ -103,7 +103,7 @@ $eighth-color: #f5bb3e;
 $ninth-color: #f5bb3e;
 /* background-color: #dee2e6 */
 .movies {
-  border: 1px solid $primary-color; 
+  border: 1px solid $primary-color;
   color: $primary-color;
 }
 .music {
@@ -174,7 +174,7 @@ h4 {
   cursor: pointer;
   font-weight: 500;
 }
-/* */
+
 .item {
   display: flex;
   overflow: hidden;
@@ -226,8 +226,11 @@ h4 {
     font-weight: 300;
     font-size: 50%;
     text-align: left;
-    margin-top: 40%;
+    margin-top: 30%;
     margin-left: -55%;
+  }
+  h4::first-letter {
+    font-size: 120%;
   }
   h4 {
     font-weight: 500;
