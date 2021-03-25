@@ -65,6 +65,11 @@ export default {
           class: "purple",
           imageURL: require("../assets/images/general.jpg"),
         },
+        {
+          name: "brain-teasers",
+          class: "yellow",
+          imageURL: require("../assets/images/brainteaser.jpg"),
+        },
       ],
     };
   },
@@ -134,7 +139,7 @@ $ninth-color: #f5bb3e;
   border: 1px solid $eighth-color;
   color: $eighth-color;
 }
-.general {
+.general, .brain-teasers {
   border: 1px solid $ninth-color;
   color: $ninth-color;
 }
@@ -226,8 +231,8 @@ h4 {
     font-weight: 300;
     font-size: 50%;
     text-align: left;
-    margin-top: 30%;
-    margin-left: -55%;
+    margin-top: 25%;
+    margin-left: -50%;
   }
   h4::first-letter {
     font-size: 120%;
