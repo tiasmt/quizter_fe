@@ -27,7 +27,7 @@ export default new Vuex.Store({
             state.inProgress = false;
             router.push('/Categories');
         },
-        join() {
+        join(state) {
             state.inProgress = false;
             router.push('/Join');
         },
@@ -149,6 +149,8 @@ export default new Vuex.Store({
         },
 
         CreatePlayer({ commit }, data) {
+            data.username ??= 'TestPlayer';
+            console.log(data.username);
             axios.post(apiRestHost + "/game/CreatePlayer",
                 {
                     'Content-Type': 'application/json'

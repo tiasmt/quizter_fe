@@ -53,7 +53,7 @@ export default {
           imageURL: require("../assets/images/Avatar6.png"),
         }
       ],
-      username: ""
+      username: null
     };
   },
   computed: {
