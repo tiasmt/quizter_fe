@@ -24,9 +24,11 @@ export default new Vuex.Store({
         createGame(state, gameName) {
             state.gameName = gameName;
             state.isAdmin = true;
+            state.inProgress = false;
             router.push('/Categories');
         },
         join() {
+            state.inProgress = false;
             router.push('/Join');
         },
         observeGame(state, data) {
